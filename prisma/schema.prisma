@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      =env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String          @unique
+  phoneno         String?
+  password        String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  animals         Animal[]
+  Predictions     Prediction[]
+  passwordResets  PasswordReset[]
+  appointments    Appointment[]
+}
+
+model Animal {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  type            String
+  breed           String?
+  age             Int?
+  gender          String?
+  pregnancyStatus String?
+
+  healthStatus    String? @default("Healthy")
+  imageUrl        String?
+
+  userId          String   @db.ObjectId
+  user            User     @relation(fields: [userId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  Predictions     Prediction[]
+  appointments    Appointment[]
+}
+
+model Disease {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  symptoms    String
+  prevention  String
+  medicine    String
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  Predictions Prediction[]
+}
+
+model Prediction {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  imageUrl    String
+  confidence  Float
+  status      String   @default("Pending")
+
+  userId      String   @db.ObjectId
+  animalId    String   @db.ObjectId
+  diseaseId   String   @db.ObjectId
+
+  user        User      @relation(fields: [userId], references: [id])
+  animal      Animal    @relation(fields: [animalId], references: [id])
+  disease     Disease   @relation(fields: [diseaseId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PasswordReset {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  userId    String   @db.ObjectId
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Appointment {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId      String   @db.ObjectId
+  animalId    String   @db.ObjectId
+
+  doctorName  String
+  date        DateTime
+  time        String
+  reason      String?
+  status      String   @default("Pending")
+
+  user        User     @relation(fields: [userId], references: [id])
+  animal      Animal   @relation(fields: [animalId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+
+
+

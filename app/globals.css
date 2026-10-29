@@ -1,26 +1,246 @@
 @import "tailwindcss";
 
+/* =========================================================
+   DARK MODE
+   Tailwind CSS v4 me .dark class ko manually define karna
+   ========================================================= */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================
+   ROOT VARIABLES
+   ========================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eef8f4;
+  --foreground: #173b39;
+  --card: #ffffff;
+  --border: #d8ebe6;
+  --muted: #64748b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* =========================================================
+   DARK THEME VARIABLES
+   ========================================================= */
+
+.dark {
+  --background: #0f2423;
+  --foreground: #e5f4f1;
+  --card: #163331;
+  --border: #28514d;
+  --muted: #9bb7b3;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =========================================================
+   HTML / BODY
+   ========================================================= */
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
+  min-height: 100vh;
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* =========================================================
+   DARK MODE - BODY
+   ========================================================= */
+
+.dark body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background: #66c7b5;
+  color: #123c3a;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b7d8d2;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #78cabb;
+}
+
+/* =========================================================
+   DARK SCROLLBAR
+   ========================================================= */
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #35645f;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4d8179;
+}
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+
+input,
+textarea,
+select {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* =========================================================
+   DARK FORM ELEMENTS
+   ========================================================= */
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #173532;
+  border-color: #315b56;
+  color: #e5f4f1;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #7f9e99;
+}
+
+.dark select option {
+  background-color: #173532;
+  color: #e5f4f1;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+button {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* =========================================================
+   DARK MODE - COMMON WHITE AREAS
+   ========================================================= */
+
+/*
+   Ye classes un pages/elements ko automatically dark karengi
+   jo Tailwind me bg-white use karte hain.
+*/
+
+.dark .bg-white {
+  background-color: #163331;
+}
+
+.dark .bg-slate-50 {
+  background-color: #193936;
+}
+
+.dark .bg-slate-100 {
+  background-color: #214440;
+}
+
+/* =========================================================
+   DARK MODE - TEXT
+   ========================================================= */
+
+.dark .text-slate-800 {
+  color: #e5f4f1;
+}
+
+.dark .text-slate-700 {
+  color: #d3e8e4;
+}
+
+.dark .text-slate-600 {
+  color: #b7d0cc;
+}
+
+.dark .text-slate-500 {
+  color: #9bb7b3;
+}
+
+.dark .text-slate-400 {
+  color: #819f9a;
+}
+
+/* =========================================================
+   DARK MODE - BORDERS
+   ========================================================= */
+
+.dark .border-slate-100 {
+  border-color: #294b47;
+}
+
+.dark .border-slate-200 {
+  border-color: #315650;
+}
+
+/* =========================================================
+   DARK MODE - DASHBOARD CARDS
+   ========================================================= */
+
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-xl {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
